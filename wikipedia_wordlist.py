@@ -43,8 +43,8 @@ def save_word_wordcount(path, frequency=100):
     for current_result in word_count(path, frequency):
         try:
             result = current_result.most_common()
-            with open('temp.txt', 'wb') as file:
-                file.write('\n'.join('%s,%s' % i for i in result).encode())
+            with open('temp.txt', 'w') as file:
+                file.writelines('%s,%s\n' % i for i in result)
             try:
                 os.remove('wiki_words.txt')
             except FileNotFoundError:
