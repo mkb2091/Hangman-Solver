@@ -1,4 +1,4 @@
-import glob
+import zlib
 import re
 
 def suggest_next(words, string, not_in='', letters='abcdefghijklmnopqrstuvwxyz'):
@@ -18,9 +18,9 @@ def suggest_next(words, string, not_in='', letters='abcdefghijklmnopqrstuvwxyz')
 
 def main():
     words = {}
-    with open('wiki_words.txt') as file:
-        words.update(map(lambda x: x.split(','),
-                         file.read().lower().splitlines()))
+    with open('compressed.zlib', 'rb') as file:
+        decompressed = zlib.decompress(file.read()).decode('utf-8')
+        words.update(map(lambda x: x.split(','), decompressed.splitlines()))
     for i in words:
         words[i] = int(words[i])
     while True:
