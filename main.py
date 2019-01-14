@@ -1,4 +1,4 @@
-import zlib
+import bz2
 import re
 
 def suggest_next(words, string, not_in='', letters='abcdefghijklmnopqrstuvwxyz'):
@@ -18,8 +18,8 @@ def suggest_next(words, string, not_in='', letters='abcdefghijklmnopqrstuvwxyz')
 
 def main():
     words = {}
-    with open('compressed.zlib', 'rb') as file:
-        decompressed = zlib.decompress(file.read()).decode('utf-8')
+    with open('compressed.bz2', 'rb') as file:
+        decompressed = bz2.decompress(file.read()).decode('utf-8')
         words.update(map(lambda x: x.split(','), decompressed.splitlines()))
     for i in words:
         words[i] = int(words[i])
