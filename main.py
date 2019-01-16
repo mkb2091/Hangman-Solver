@@ -17,16 +17,20 @@ def suggest_next(words, string, not_in='', letters='abcdefghijklmnopqrstuvwxyz')
     return sorted(counts, reverse=True)
 
 def main():
-    words = {}
+    word_dict = {}
     with open('compressed.xz', 'rb') as file:
         decompressed = lzma.decompress(file.read()).decode('utf-8')
-        words.update(map(lambda x: x.split(','), decompressed.splitlines()))
-    for i in words:
-        words[i] = int(words[i])
+        for line in decompressed.splitlines():
+            count, words = line.split(':')
+            count = int(count, 16)
+            words = words.split(',')
+            for i in words:
+                word_dict[i] = count
     while True:
         string = input('String>>>')
         not_in = input('Letters not in>>>>')
-        print('\n'.join('%s %s' % i for i in suggest_next(words, string, not_in)))
+        print('\n'.join('%s %s' % i for i in suggest_next(word_dict, string,
+                                                          not_in)))
         
 
 if __name__ == '__main__':
